@@ -1,4 +1,4 @@
-![WRT](/images/logo.png)
+![WRT](docs/images/logo.png)
 
 # What is WRT?
 WRT is a network of computers which use the [Ripple consensus algorithm](https://www.youtube.com/watch?v=pj1QVb1vlC0) to atomically settle and record
