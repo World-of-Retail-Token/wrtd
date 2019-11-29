@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -48,14 +49,14 @@ RippleCalc::Output RippleCalc::rippleCalculate (
     // apply to ledger.
 
     // Issuer:
-    //      XRP: xrpAccount()
-    //  non-XRP: uSrcAccountID (for any issuer) or another account with
+    //      WRT: xrpAccount()
+    //  non-WRT: uSrcAccountID (for any issuer) or another account with
     //           trust node.
     STAmount const& saMaxAmountReq,             // --> -1 = no limit.
 
     // Issuer:
-    //      XRP: xrpAccount()
-    //  non-XRP: uDstAccountID (for any issuer) or another account with
+    //      WRT: xrpAccount()
+    //  non-WRT: uDstAccountID (for any issuer) or another account with
     //           trust node.
     STAmount const& saDstAmountReq,
 
@@ -303,7 +304,7 @@ TER RippleCalc::rippleCalculate (detail::FlowDebugInfo* flowDebugInfo)
 
     // Build a default path.  Use saDstAmountReq_ and saMaxAmountReq_ to imply
     // nodes.
-    // XXX Might also make a XRP bridge by default.
+    // XXX Might also make a WRT bridge by default.
 
     JLOG (j_.trace())
         << "rippleCalc: Paths in set: " << spsPaths_.size ();

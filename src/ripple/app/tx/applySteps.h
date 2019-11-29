@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -120,7 +121,7 @@ public:
 
 /** Structure describing the consequences to the account
     of applying a transaction if the transaction consumes
-    the maximum XRP allowed.
+    the maximum WRT allowed.
 
     @see calculateConsequences
 */
@@ -238,8 +239,8 @@ std::uint64_t
 calculateBaseFee(ReadView const& view,
     STTx const& tx);
 
-/** Determine the XRP balance consequences if a transaction
-    consumes the maximum XRP allowed.
+/** Determine the WRT balance consequences if a transaction
+    consumes the maximum WRT allowed.
 
     @pre The transaction has been checked
     and validated using `preflight`

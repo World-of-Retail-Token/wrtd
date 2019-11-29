@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -892,25 +893,25 @@ TxQ::apply(Application& app, OpenView& view,
                         this account. Currently, it will not count,
                         for the same reason that it is not checked on
                         the first transaction.
-                    Assume: Minimum account reserve is 20 XRP.
-                    Example 1: If I have 1,000,000 XRP, I can queue
-                        a transaction with a 1,000,000 XRP fee. In
+                    Assume: Minimum account reserve is 20 WRT.
+                    Example 1: If I have 1,000,000 WRT, I can queue
+                        a transaction with a 1,000,000 WRT fee. In
                         the meantime, some other transaction may
                         lower my balance (eg. taking an offer). When
                         the transaction executes, I will either
-                        spend the 1,000,000 XRP, or the transaction
+                        spend the 1,000,000 WRT, or the transaction
                         will get stuck in the queue with a
                         `terINSUF_FEE_B`.
-                    Example 2: If I have 1,000,000 XRP, and I queue
-                        10 transactions with 0.1 XRP fee, I have 1 XRP
+                    Example 2: If I have 1,000,000 WRT, and I queue
+                        10 transactions with 0.1 WRT fee, I have 1 WRT
                         in flight. I can now queue another tx with a
-                        999,999 XRP fee. When the first 10 execute,
+                        999,999 WRT fee. When the first 10 execute,
                         they're guaranteed to pay their fee, because
                         nothing can eat into my reserve. The last
                         transaction, again, will either spend the
-                        999,999 XRP, or get stuck in the queue.
-                    Example 3: If I have 1,000,000 XRP, and I queue
-                        7 transactions with 3 XRP fee, I have 21 XRP
+                        999,999 WRT, or get stuck in the queue.
+                    Example 3: If I have 1,000,000 WRT, and I queue
+                        7 transactions with 3 WRT fee, I have 21 WRT
                         in flight. I can not queue any more transactions,
                         no matter how small or large the fee.
                     Transactions stuck in the queue are mitigated by

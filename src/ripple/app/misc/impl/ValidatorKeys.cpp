@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -42,8 +43,7 @@ ValidatorKeys::ValidatorKeys(Config const& config, beast::Journal j)
         if (auto const token = ValidatorToken::make_ValidatorToken(
                 config.section(SECTION_VALIDATOR_TOKEN).lines()))
         {
-            auto const pk = derivePublicKey(
-                KeyType::secp256k1, token->validationSecret);
+            auto const pk = derivePublicKey(token->validationSecret);
             auto const m = deserializeManifest(base64_decode(token->manifest));
 
             if (! m || pk != m->signingKey)
@@ -79,8 +79,8 @@ ValidatorKeys::ValidatorKeys(Config const& config, beast::Journal j)
         }
         else
         {
-            secretKey = generateSecretKey(KeyType::secp256k1, *seed);
-            publicKey = derivePublicKey(KeyType::secp256k1, secretKey);
+            secretKey = generateSecretKey(*seed);
+            publicKey = derivePublicKey(secretKey);
             nodeID = calcNodeID(publicKey);
         }
     }

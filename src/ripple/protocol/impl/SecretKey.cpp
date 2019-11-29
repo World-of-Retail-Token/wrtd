@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -26,7 +27,6 @@
 #include <ripple/crypto/csprng.h>
 #include <ripple/beast/crypto/secure_erase.h>
 #include <ripple/beast/utility/rngfill.h>
-#include <ed25519-donna/ed25519.h>
 #include <cstring>
 
 namespace ripple {
@@ -100,8 +100,8 @@ Buffer
 signDigest (PublicKey const& pk, SecretKey const& sk,
     uint256 const& digest)
 {
-    if (publicKeyType(pk.slice()) != KeyType::secp256k1)
-        LogicError("sign: secp256k1 required for digest signing");
+    if (!isPublicKey(pk.slice()))
+        LogicError("sign: secp256k1 public key required for digest signing");
 
     BOOST_ASSERT(sk.size() == 32);
     secp256k1_ecdsa_signature sig_imp;
@@ -132,52 +132,29 @@ Buffer
 sign (PublicKey const& pk,
     SecretKey const& sk, Slice const& m)
 {
-    auto const type =
-        publicKeyType(pk.slice());
-    if (! type)
+    if (!isPublicKey(pk.slice()))
         LogicError("sign: invalid type");
-    switch(*type)
-    {
-    case KeyType::ed25519:
-    {
-        Buffer b(64);
-        ed25519_sign(m.data(), m.size(),
-            sk.data(), pk.data() + 1, b.data());
-        return b;
-    }
-    case KeyType::secp256k1:
-    {
-        sha512_half_hasher h;
-        h(m.data(), m.size());
-        auto const digest =
-            sha512_half_hasher::result_type(h);
+    sha512_half_hasher h;
+    h(m.data(), m.size());
+    auto const digest = sha512_half_hasher::result_type(h);
 
-        secp256k1_ecdsa_signature sig_imp;
-        if(secp256k1_ecdsa_sign(
-                secp256k1Context(),
-                &sig_imp,
-                reinterpret_cast<unsigned char const*>(
-                    digest.data()),
-                reinterpret_cast<unsigned char const*>(
-                    sk.data()),
-                secp256k1_nonce_function_rfc6979,
-                nullptr) != 1)
-            LogicError("sign: secp256k1_ecdsa_sign failed");
+    secp256k1_ecdsa_signature sig_imp;
+    if (secp256k1_ecdsa_sign(
+            secp256k1Context(),
+            &sig_imp,
+            reinterpret_cast<unsigned char const*>(digest.data()),
+            reinterpret_cast<unsigned char const*>(sk.data()),
+            secp256k1_nonce_function_rfc6979,
+            nullptr) != 1)
+        LogicError("sign: secp256k1_ecdsa_sign failed");
 
-        unsigned char sig[72];
-        size_t len = sizeof(sig);
-        if(secp256k1_ecdsa_signature_serialize_der(
-                secp256k1Context(),
-                sig,
-                &len,
-                &sig_imp) != 1)
-            LogicError("sign: secp256k1_ecdsa_signature_serialize_der failed");
+    unsigned char sig[72];
+    size_t len = sizeof(sig);
+    if (secp256k1_ecdsa_signature_serialize_der(
+            secp256k1Context(), sig, &len, &sig_imp) != 1)
+        LogicError("sign: secp256k1_ecdsa_signature_serialize_der failed");
 
-        return Buffer{sig, len};
-    }
-    default:
-        LogicError("sign: invalid type");
-    }
+    return Buffer{sig, len};
 }
 
 SecretKey
@@ -196,109 +173,89 @@ randomSecretKey()
 // VFALCO TODO Rewrite all this without using OpenSSL
 //             or calling into GenerateDetermisticKey
 SecretKey
-generateSecretKey (KeyType type, Seed const& seed)
+generateSecretKey (Seed const& seed)
 {
-    if (type == KeyType::ed25519)
-    {
-        auto key = sha512Half_s(Slice(
-            seed.data(), seed.size()));
-        SecretKey sk = Slice{ key.data(), key.size() };
-        beast::secure_erase(key.data(), key.size());
-        return sk;
-    }
-
-    if (type == KeyType::secp256k1)
-    {
-        // FIXME: Avoid copying the seed into a uint128 key only to have
-        //        generateRootDeterministicPrivateKey copy out of it.
-        uint128 ps;
-        std::memcpy(ps.data(),
-            seed.data(), seed.size());
-        auto const upk =
-            generateRootDeterministicPrivateKey(ps);
-        SecretKey sk = Slice{ upk.data(), upk.size() };
-        beast::secure_erase(ps.data(), ps.size());
-        return sk;
-    }
-
-    LogicError ("generateSecretKey: unknown key type");
+    // FIXME: Avoid copying the seed into a uint128 key only to have
+    //        generateRootDeterministicPrivateKey copy out of it.
+    uint128 ps;
+    std::memcpy(ps.data(),
+        seed.data(), seed.size());
+    auto const upk =
+        generateRootDeterministicPrivateKey(ps);
+    SecretKey sk = Slice{ upk.data(), upk.size() };
+    beast::secure_erase(ps.data(), ps.size());
+    return sk;
 }
 
 PublicKey
-derivePublicKey (KeyType type, SecretKey const& sk)
+derivePublicKey (SecretKey const& sk)
 {
-    switch(type)
-    {
-    case KeyType::secp256k1:
-    {
-        secp256k1_pubkey pubkey_imp;
-        if(secp256k1_ec_pubkey_create(
-                secp256k1Context(),
-                &pubkey_imp,
-                reinterpret_cast<unsigned char const*>(
-                    sk.data())) != 1)
-            LogicError("derivePublicKey: secp256k1_ec_pubkey_create failed");
+    secp256k1_pubkey pubkey_imp;
+    if(secp256k1_ec_pubkey_create(
+            secp256k1Context(),
+            &pubkey_imp,
+            reinterpret_cast<unsigned char const*>(
+                sk.data())) != 1)
+        LogicError("derivePublicKey: secp256k1_ec_pubkey_create failed");
 
-        unsigned char pubkey[33];
-        std::size_t len = sizeof(pubkey);
-        if(secp256k1_ec_pubkey_serialize(
-                secp256k1Context(),
-                pubkey,
-                &len,
-                &pubkey_imp,
-                SECP256K1_EC_COMPRESSED) != 1)
-            LogicError("derivePublicKey: secp256k1_ec_pubkey_serialize failed");
+    unsigned char pubkey[33];
+    std::size_t len = sizeof(pubkey);
+    if(secp256k1_ec_pubkey_serialize(
+            secp256k1Context(),
+            pubkey,
+            &len,
+            &pubkey_imp,
+            SECP256K1_EC_COMPRESSED) != 1)
+        LogicError("derivePublicKey: secp256k1_ec_pubkey_serialize failed");
 
-        return PublicKey{Slice{ pubkey, len }};
-    }
-    case KeyType::ed25519:
-    {
-        unsigned char buf[33];
-        buf[0] = 0xED;
-        ed25519_publickey(sk.data(), &buf[1]);
-        return PublicKey(Slice{ buf, sizeof(buf) });
-    }
-    default:
-        LogicError("derivePublicKey: bad key type");
-    };
+    return PublicKey{Slice{ pubkey, len }};
 }
 
 std::pair<PublicKey, SecretKey>
-generateKeyPair (KeyType type, Seed const& seed)
+generateKeyPair (Seed const& seed, bool fCompat)
 {
-    switch(type)
-    {
-    case KeyType::secp256k1:
+    if (!fCompat)
     {
         Generator g(seed);
         return g(seed, 0);
     }
-    default:
-    case KeyType::ed25519:
+    else
     {
-        auto const sk = generateSecretKey(type, seed);
-        return { derivePublicKey(type, sk), sk };
-    }
+        auto const sk = generateSecretKey(seed);
+        return { derivePublicKey(sk), sk }; 
     }
 }
 
 std::pair<PublicKey, SecretKey>
-randomKeyPair (KeyType type)
+randomKeyPair ()
 {
     auto const sk = randomSecretKey();
-    return { derivePublicKey(type, sk), sk };
+    return { derivePublicKey(sk), sk };
 }
 
 template <>
 boost::optional<SecretKey>
 parseBase58 (TokenType type, std::string const& s)
 {
-    auto const result = decodeBase58Token(s, type);
+    auto result = decodeBase58Token(s, type);
     if (result.empty())
         return boost::none;
+    if (result.size() == 33 && type == TokenType::AccountWif)
+        result.pop_back();
     if (result.size() != 32)
         return boost::none;
     return SecretKey(makeSlice(result));
+}
+
+
+template<>
+boost::optional<SecretKey>
+parseHex (std::string const& str)
+{
+    uint256 secret;
+    if (secret.SetHexExact (str))
+        return SecretKey(Slice(secret.data(), secret.size()));
+    return boost::none;
 }
 
 } // ripple

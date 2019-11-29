@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2014 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
+
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -301,7 +303,7 @@ private:
     // The underlying ledger entry we are dealing with
     ApplyView& view_;
 
-    // The amount of XRP that flowed if we were autobridging
+    // The amount of WRT that flowed if we were autobridging
     STAmount xrp_flow_;
 
     // The number direct crossings that we performed

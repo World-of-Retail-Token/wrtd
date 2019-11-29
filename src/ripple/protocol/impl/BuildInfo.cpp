@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -30,7 +31,7 @@ namespace BuildInfo {
 //  The build version number. You must edit this for each release
 //  and follow the format described at http://semver.org/
 //------------------------------------------------------------------------------
-char const* const versionString = "1.4.0-rc2"
+char const* const versionString = "1.4.0-rc1"
 
 #if defined(DEBUG) || defined(SANITIZER)
        "+"
@@ -106,7 +107,7 @@ getVersionString ()
 std::string const& getFullVersionString ()
 {
     static std::string const value =
-        "rippled-" + getVersionString();
+        "wrtd-" + getVersionString();
     return value;
 }
 

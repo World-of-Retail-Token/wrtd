@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -24,6 +25,7 @@
 #include <ripple/protocol/PublicKey.h>
 #include <ripple/protocol/SecretKey.h>
 #include <ripple/beast/utility/Journal.h>
+#include <ripple/json/json_value.h>
 #include <boost/optional.hpp>
 #include <string>
 
@@ -35,7 +37,7 @@ namespace ripple {
 
     Suppose the secret keys installed on a Ripple validator are compromised.  Not
     only do you have to generate and install new key pairs on each validator,
-    EVERY rippled needs to have its config updated with the new public keys, and
+    EVERY wrtd needs to have its config updated with the new public keys, and
     is vulnerable to forged validation signatures until this is done.  The
     solution is a new layer of indirection: A master secret key under
     restrictive access control is used to sign a "manifest": essentially, a
@@ -57,11 +59,11 @@ namespace ripple {
     seen for that validator, if any.  On startup, the [validator_token] config
     entry (which contains the manifest for this validator) is decoded and
     added to the manifest cache.  Other manifests are added as "gossip"
-    received from rippled peers.
+    received from wrtd peers.
 
     When an ephemeral key is compromised, a new signing key pair is created,
     along with a new manifest vouching for it (with a higher sequence number),
-    signed by the master key.  When a rippled peer receives the new manifest,
+    signed by the master key.  When a wrtd peer receives the new manifest,
     it verifies it with the master key and (assuming it's valid) discards the
     old ephemeral key and stores the new one.  If the master key itself gets
     compromised, a manifest with sequence number 0xFFFFFFFF will supersede a
@@ -106,6 +108,9 @@ struct Manifest
 
     /// Returns `true` if manifest revokes master key
     bool revoked () const;
+
+    Json::Value
+    getJson() const;
 
     /// Returns manifest signature
     boost::optional<Blob> getSignature () const;

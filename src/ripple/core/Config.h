@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -136,9 +137,9 @@ public:
     bool validateShards = false;
     bool ELB_SUPPORT = false;
 
-    std::vector<std::string>    IPS;                    // Peer IPs from rippled.cfg.
-    std::vector<std::string>    IPS_FIXED;              // Fixed Peer IPs from rippled.cfg.
-    std::vector<std::string>    SNTP_SERVERS;           // SNTP servers from rippled.cfg.
+    std::vector<std::string>    IPS;                    // Peer IPs from wrtd.cfg.
+    std::vector<std::string>    IPS_FIXED;              // Fixed Peer IPs from wrtd.cfg.
+    std::vector<std::string>    SNTP_SERVERS;           // SNTP servers from wrtd.cfg.
 
     enum StartUpType
     {
@@ -156,7 +157,7 @@ public:
     std::string                 START_LEDGER;
 
     // Network parameters
-    int const                   TRANSACTION_FEE_BASE = 10;   // The number of fee units a reference transaction costs
+    int const                   TRANSACTION_FEE_BASE = 1;   // The number of fee units a reference transaction costs
 
     // Note: The following parameters do not relate to the UNL or trust at all
     // Minimum number of nodes to consider the network present
@@ -178,8 +179,8 @@ public:
     boost::optional<std::size_t> VALIDATION_QUORUM;     // validations to consider ledger authoritative
 
     std::uint64_t                      FEE_DEFAULT = 10;
-    std::uint64_t                      FEE_ACCOUNT_RESERVE = 200*SYSTEM_CURRENCY_PARTS;
-    std::uint64_t                      FEE_OWNER_RESERVE = 50*SYSTEM_CURRENCY_PARTS;
+    std::uint64_t                      FEE_ACCOUNT_RESERVE = SYSTEM_CURRENCY_PARTS / 100;
+    std::uint64_t                      FEE_OWNER_RESERVE = SYSTEM_CURRENCY_PARTS / 500;
     std::uint64_t                      FEE_OFFER = 10;
 
     // Node storage configuration

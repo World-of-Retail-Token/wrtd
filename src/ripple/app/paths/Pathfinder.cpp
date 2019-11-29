@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -34,9 +35,9 @@
 
 Core Pathfinding Engine
 
-The pathfinding request is identified by category, XRP to XRP, XRP to
-non-XRP, non-XRP to XRP, same currency non-XRP to non-XRP, cross-currency
-non-XRP to non-XRP.  For each category, there is a table of paths that the
+The pathfinding request is identified by category, WRT to WRT, WRT to
+non-WRT, non-WRT to WRT, same currency non-WRT to non-WRT, cross-currency
+non-WRT to non-WRT.  For each category, there is a table of paths that the
 pathfinder searches for.  Complete paths are collected.
 
 Each complete path is then rated and sorted. Paths with no or trivial
@@ -250,7 +251,7 @@ bool Pathfinder::findPaths (int searchLevel)
         if (!bDstXrp)
         {
             JLOG (j_.debug())
-                    << "New account not being funded in XRP ";
+                    << "New account not being funded in WRT ";
             return false;
         }
 
@@ -269,32 +270,32 @@ bool Pathfinder::findPaths (int searchLevel)
     PaymentType paymentType;
     if (bSrcXrp && bDstXrp)
     {
-        // XRP -> XRP
-        JLOG (j_.debug()) << "XRP to XRP payment";
+        // WRT -> WRT
+        JLOG (j_.debug()) << "WRT to WRT payment";
         paymentType = pt_XRP_to_XRP;
     }
     else if (bSrcXrp)
     {
-        // XRP -> non-XRP
-        JLOG (j_.debug()) << "XRP to non-XRP payment";
+        // WRT -> non-WRT
+        JLOG (j_.debug()) << "WRT to non-WRT payment";
         paymentType = pt_XRP_to_nonXRP;
     }
     else if (bDstXrp)
     {
-        // non-XRP -> XRP
-        JLOG (j_.debug()) << "non-XRP to XRP payment";
+        // non-WRT -> WRT
+        JLOG (j_.debug()) << "non-WRT to WRT payment";
         paymentType = pt_nonXRP_to_XRP;
     }
     else if (mSrcCurrency == mDstAmount.getCurrency ())
     {
-        // non-XRP -> non-XRP - Same currency
-        JLOG (j_.debug()) << "non-XRP to non-XRP - same currency";
+        // non-WRT -> non-WRT - Same currency
+        JLOG (j_.debug()) << "non-WRT to non-WRT - same currency";
         paymentType = pt_nonXRP_to_same;
     }
     else
     {
-        // non-XRP to non-XRP - Different currency
-        JLOG (j_.debug()) << "non-XRP to non-XRP - cross currency";
+        // non-WRT to non-WRT - Different currency
+        JLOG (j_.debug()) << "non-WRT to non-WRT - cross currency";
         paymentType = pt_nonXRP_to_nonXRP;
     }
 
@@ -917,7 +918,7 @@ void Pathfinder::addLink (
         if (bOnXRP)
         {
             if (mDstAmount.native () && !currentPath.empty ())
-            { // non-default path to XRP destination
+            { // non-default path to WRT destination
                 JLOG (j_.trace())
                     << "complete path found ax: "
                     << currentPath.getJson(JsonOptions::none);
@@ -1066,7 +1067,7 @@ void Pathfinder::addLink (
         // add order books
         if (addFlags & afOB_XRP)
         {
-            // to XRP only
+            // to WRT only
             if (!bOnXRP && app_.getOrderBookDB ().isBookToXRP (
                     {uEndCurrency, uEndIssuer}))
             {
@@ -1099,7 +1100,7 @@ void Pathfinder::addLink (
                     STPath newPath (currentPath);
 
                     if (book->getCurrencyOut().isZero())
-                    { // to XRP
+                    { // to WRT
 
                         // add the order book itself
                         newPath.emplace_back (
@@ -1110,7 +1111,7 @@ void Pathfinder::addLink (
 
                         if (mDstAmount.getCurrency ().isZero ())
                         {
-                            // destination is XRP, add account and path is
+                            // destination is WRT, add account and path is
                             // complete
                             JLOG (j_.trace())
                                 << "complete path found bx: "
@@ -1257,15 +1258,15 @@ void Pathfinder::initPathTable ()
 
     fillPaths(
         pt_nonXRP_to_XRP, {
-            {1, "sxd"},       // gateway buys XRP
-            {2, "saxd"},      // source -> gateway -> book(XRP) -> dest
+            {1, "sxd"},       // gateway buys WRT
+            {2, "saxd"},      // source -> gateway -> book(WRT) -> dest
             {6, "saaxd"},
             {7, "sbxd"},
             {8, "sabxd"},
             {9, "sabaxd"}
         });
 
-    // non-XRP to non-XRP (same currency)
+    // non-WRT to non-WRT (same currency)
     fillPaths(
         pt_nonXRP_to_same,  {
             {1, "sad"},     // source -> gateway -> destination
@@ -1276,14 +1277,14 @@ void Pathfinder::initPathTable ()
             {5, "sbfd"},
             {6, "sxfad"},
             {6, "safad"},
-            {6, "saxfd"},   // source -> gateway -> book to XRP -> book ->
+            {6, "saxfd"},   // source -> gateway -> book to WRT -> book ->
                             // destination
             {6, "saxfad"},
             {6, "sabfd"},   // source -> gateway -> book -> book -> destination
             {7, "saaad"},
         });
 
-    // non-XRP to non-XRP (different currency)
+    // non-WRT to non-WRT (different currency)
     fillPaths(
         pt_nonXRP_to_nonXRP, {
             {1, "sfad"},

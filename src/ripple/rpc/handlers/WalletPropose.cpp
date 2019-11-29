@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
     Copyright (c) 2012-2014 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -18,7 +18,6 @@
 //==============================================================================
 
 #include <ripple/basics/strHex.h>
-#include <ripple/crypto/KeyType.h>
 #include <ripple/net/RPCErr.h>
 #include <ripple/protocol/ErrorCodes.h>
 #include <ripple/protocol/jss.h>
@@ -28,7 +27,6 @@
 #include <ripple/rpc/Context.h>
 #include <ripple/rpc/impl/RPCHelpers.h>
 #include <ripple/rpc/handlers/WalletPropose.h>
-#include <ed25519-donna/ed25519.h>
 #include <boost/optional.hpp>
 #include <cmath>
 #include <map>
@@ -71,46 +69,8 @@ Json::Value doWalletPropose (RPC::Context& context)
 
 Json::Value walletPropose (Json::Value const& params)
 {
-    boost::optional<KeyType> keyType;
     boost::optional<Seed> seed;
     bool rippleLibSeed = false;
-
-    if (params.isMember (jss::key_type))
-    {
-        if (! params[jss::key_type].isString())
-        {
-            return RPC::expected_field_error (
-                jss::key_type, "string");
-        }
-
-        keyType = keyTypeFromString (
-            params[jss::key_type].asString());
-
-        if (!keyType)
-            return rpcError(rpcINVALID_PARAMS);
-    }
-
-    // ripple-lib encodes seed used to generate an Ed25519 wallet in a
-    // non-standard way. While we never encode seeds that way, we try
-    // to detect such keys to avoid user confusion.
-    {
-        if (params.isMember(jss::passphrase))
-            seed = RPC::parseRippleLibSeed(params[jss::passphrase]);
-        else if (params.isMember(jss::seed))
-            seed = RPC::parseRippleLibSeed(params[jss::seed]);
-
-        if(seed)
-        {
-            rippleLibSeed = true;
-
-            // If the user *explicitly* requests a key type other than
-            // Ed25519 we return an error.
-            if (keyType.value_or(KeyType::ed25519) != KeyType::ed25519)
-                return rpcError(rpcBAD_SEED);
-
-            keyType = KeyType::ed25519;
-        }
-    }
 
     if (!seed)
     {
@@ -131,10 +91,11 @@ Json::Value walletPropose (Json::Value const& params)
         }
     }
 
-    if (!keyType)
-        keyType = KeyType::secp256k1;
+    bool const compat = (params.isMember (jss::passphrase_compat) && params[jss::passphrase_compat].asBool());
 
-    auto const publicKey = generateKeyPair (*keyType, *seed).first;
+    auto const keyPair = generateKeyPair (*seed, compat);
+    auto const publicKey = keyPair.first;
+    auto const secretKey = keyPair.second;
 
     Json::Value obj (Json::objectValue);
 
@@ -147,8 +108,9 @@ Json::Value walletPropose (Json::Value const& params)
     obj[jss::master_key] = seed1751;
     obj[jss::account_id] = toBase58(calcAccountID(publicKey));
     obj[jss::public_key] = toBase58(TokenType::AccountPublic, publicKey);
-    obj[jss::key_type] = to_string (*keyType);
     obj[jss::public_key_hex] = strHex (publicKey);
+    obj[jss::secret_key_hex] = strHex (secretKey);
+    obj[jss::secret_key_wif] = toWIF (secretKey);
 
     // If a passphrase was specified, and it was hashed and used as a seed
     // run a quick entropy check and add an appropriate warning, because

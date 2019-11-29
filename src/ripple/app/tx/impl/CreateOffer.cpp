@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -94,7 +95,7 @@ CreateOffer::preflight (PreflightContext const& ctx)
     if (saTakerPays.native () && saTakerGets.native ())
     {
         JLOG(j.debug()) <<
-            "Malformed offer: redundant (XRP for XRP)";
+            "Malformed offer: redundant (WRT for WRT)";
         return temBAD_OFFER;
     }
     if (saTakerPays <= beast::zero || saTakerGets <= beast::zero)
@@ -116,7 +117,7 @@ CreateOffer::preflight (PreflightContext const& ctx)
             "Malformed offer: redundant (IOU for IOU)";
         return temREDUNDANT;
     }
-    // We don't allow a non-native currency to use the currency code XRP.
+    // We don't allow a non-native currency to use the currency code WRT.
     if (badCurrency() == uPaysCurrency || badCurrency() == uGetsCurrency)
     {
         JLOG(j.debug()) <<
@@ -344,7 +345,7 @@ CreateOffer::bridged_cross (
     assert (!isXRP (takerAmount.in) && !isXRP (takerAmount.out));
 
     if (isXRP (takerAmount.in) || isXRP (takerAmount.out))
-        Throw<std::logic_error> ("Bridging with XRP and an endpoint.");
+        Throw<std::logic_error> ("Bridging with WRT and an endpoint.");
 
     OfferStream offers_direct (view, view_cancel,
         Book (taker.issue_in (), taker.issue_out ()),
@@ -627,7 +628,7 @@ CreateOffer::takerCross (
     // If the taker is unfunded before we begin crossing
     // there's nothing to do - just return an error.
     //
-    // We check this in preclaim, but when selling XRP
+    // We check this in preclaim, but when selling WRT
     // charged fees can cause a user's available balance
     // to go to 0 (by causing it to dip below the reserve)
     // so we check this case again.
@@ -664,7 +665,7 @@ CreateOffer::flowCross (
         // If the taker is unfunded before we begin crossing there's nothing
         // to do - just return an error.
         //
-        // We check this in preclaim, but when selling XRP charged fees can
+        // We check this in preclaim, but when selling WRT charged fees can
         // cause a user's available balance to go to 0 (by causing it to dip
         // below the reserve) so we check this case again.
         STAmount const inStartBalance = accountFunds (
@@ -707,8 +708,8 @@ CreateOffer::flowCross (
             sendMax = inStartBalance;
 
         // Always invoke flow() with the default path.  However if neither
-        // of the takerAmount currencies are XRP then we cross through an
-        // additional path with XRP as the intermediate between two books.
+        // of the takerAmount currencies are WRT then we cross through an
+        // additional path with WRT as the intermediate between two books.
         // This second path we have to build ourselves.
         STPathSet paths;
         if (!takerAmount.in.native() & !takerAmount.out.native())
@@ -846,7 +847,7 @@ static std::string to_string (SBoxCmp c)
     case SBoxCmp::offerDelDiff:
         return "offer del diffs";
     case SBoxCmp::xrpRound:
-        return "XRP round to zero";
+        return "WRT round to zero";
     case SBoxCmp::diff:
         return "different";
     }
@@ -865,15 +866,15 @@ static SBoxCmp compareSandboxes (char const* name, ApplyContext const& ctx,
     if (diff.hasDiff())
     {
         using namespace beast::severities;
-        // There is a special case of an offer with XRP on one side where
-        // the XRP gets rounded to zero.  It mostly looks like dust-level
+        // There is a special case of an offer with WRT on one side where
+        // the WRT gets rounded to zero.  It mostly looks like dust-level
         // differences.  It is easier to detect if we look for it before
         // removing the dust differences.
         if (int const side = diff.xrpRoundToZero())
         {
             char const* const whichSide = side > 0 ? "; Flow" : "; Taker";
             j.stream (kWarning) << "FlowCross: " << name << " different" <<
-                whichSide << " XRP rounded to zero.  tx: " <<
+                whichSide << " WRT rounded to zero.  tx: " <<
                 ctx.tx.getTransactionID();
             return SBoxCmp::xrpRound;
         }

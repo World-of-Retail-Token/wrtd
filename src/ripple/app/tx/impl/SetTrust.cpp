@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -62,7 +63,7 @@ SetTrust::preflight (PreflightContext const& ctx)
     if (badCurrency() == saLimitAmount.getCurrency ())
     {
         JLOG(j.trace()) <<
-            "Malformed transaction: specifies XRP as IOU";
+            "Malformed transaction: specifies WRT as IOU";
         return temBAD_CURRENCY;
     }
 
@@ -166,10 +167,10 @@ SetTrust::doApply ()
     //
     // Without this logic, a gateway that wanted to have a
     // new user use its services, would have to give that
-    // user enough XRP to cover not only the account reserve
+    // user enough WRT to cover not only the account reserve
     // but the incremental reserve for the trust line as
     // well. A person with no intention of using the gateway
-    // could use the extra XRP for their own purposes.
+    // could use the extra WRT for their own purposes.
 
     XRPAmount const reserveCreate ((uOwnerCount < 2)
         ? XRPAmount (beast::zero)
@@ -429,7 +430,7 @@ SetTrust::doApply ()
             JLOG(j_.trace()) <<
                 "Delay transaction: Insufficent reserve to add trust line.";
 
-            // Another transaction could provide XRP to the account and then
+            // Another transaction could provide WRT to the account and then
             // this transaction would succeed.
             terResult = tecINSUF_RESERVE_LINE;
         }

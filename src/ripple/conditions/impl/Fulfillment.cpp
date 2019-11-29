@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2016 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
+
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -74,8 +76,7 @@ Fulfillment::deserialize(
     //     preimageSha256   [0] PreimageFulfillment ,
     //     prefixSha256     [1] PrefixFulfillment,
     //     thresholdSha256  [2] ThresholdFulfillment,
-    //     rsaSha256        [3] RsaSha256Fulfillment,
-    //     ed25519Sha256    [4] Ed25519Sha512Fulfillment
+    //     rsaSha256        [3] RsaSha256Fulfillment
     // }
 
     if (s.empty())
@@ -141,10 +142,6 @@ Fulfillment::deserialize(
         ec = error::unsupported_type;
         return {};
         break;
-
-    case safe_cast<TagType>(Type::ed25519Sha256):
-        ec = error::unsupported_type;
-        return {};
 
     default:
         ec = error::unknown_type;

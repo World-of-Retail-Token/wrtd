@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2014 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
+
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -99,7 +101,7 @@ parseHexOrBase58 (std::string const& s);
 //AccountID
 //calcAccountID (PublicKey const& pk);
 
-/** A special account that's used as the "issuer" for XRP. */
+/** A special account that's used as the "issuer" for WRT. */
 AccountID const&
 xrpAccount();
 
@@ -143,7 +145,7 @@ inline std::ostream& operator<< (std::ostream& os, AccountID const& x)
 /** Caches the base58 representations of AccountIDs
 
     This operation occurs with sufficient frequency to
-    justify having a cache. In the future, rippled should
+    justify having a cache. In the future, wrtd should
     require clients to receive "binary" results, where
     AccountIDs are hex-encoded.
 */

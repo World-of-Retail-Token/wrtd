@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -40,16 +41,16 @@ public:
     struct Setup
     {
         /** The cost of a reference transaction in drops. */
-        std::uint64_t reference_fee = 10;
+        std::uint64_t reference_fee = 1;
 
         /** The cost of a reference transaction in fee units. */
-        std::uint32_t const reference_fee_units = 10;
+        std::uint32_t const reference_fee_units = 1;
 
         /** The account reserve requirement in drops. */
-        std::uint64_t account_reserve = 20 * SYSTEM_CURRENCY_PARTS;
+        std::uint64_t account_reserve = 1 * SYSTEM_CURRENCY_PARTS;
 
         /** The per-owned item reserve requirement in drops. */
-        std::uint64_t owner_reserve = 5 * SYSTEM_CURRENCY_PARTS;
+        std::uint64_t owner_reserve = 7 * SYSTEM_CURRENCY_PARTS;
     };
 
     virtual ~FeeVote () = default;

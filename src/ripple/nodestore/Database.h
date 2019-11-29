@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2017 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -281,9 +282,9 @@ private:
     // current read generation
     uint64_t readGen_ {0};
 
-    // The default is 32570 to match the XRP ledger network's earliest
+    // The default is 1 to match the WRT ledger network's earliest
     // allowed sequence. Alternate networks may set this value.
-    std::uint32_t const earliestSeq_;
+    std::uint32_t const earliestSeq_ {XRP_LEDGER_EARLIEST_SEQ};
 
     virtual
     std::shared_ptr<NodeObject>

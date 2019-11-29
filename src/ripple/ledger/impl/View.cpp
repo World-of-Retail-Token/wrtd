@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -313,7 +314,7 @@ xrpLiquid (ReadView const& view, AccountID const& id,
     else
     {
         // pre-switchover
-        // XRP: return balance minus reserve
+        // WRT: return balance minus reserve
         std::uint32_t const ownerCount =
             confineOwnerCount (sle->getFieldU32 (sfOwnerCount), ownerCountAdj);
         auto const reserve =
@@ -1361,7 +1362,7 @@ accountSend (ApplyView& view,
         view.creditHook (uSenderID, uReceiverID, saAmount, dummyBalance);
     }
 
-    /* XRP send which does not check reserve and can do pure adjustment.
+    /* WRT send which does not check reserve and can do pure adjustment.
      * Note that sender or receiver may be null and this not a mistake; this
      * setup is used during pathfinding and it is carefully controlled to
      * ensure that transfers are balanced.
@@ -1409,7 +1410,7 @@ accountSend (ApplyView& view,
             if (fv2Switch)
                 view.creditHook (uSenderID, xrpAccount (), saAmount, sndBal);
 
-            // Decrement XRP balance.
+            // Decrement WRT balance.
             sender->setFieldAmount (sfBalance, sndBal - saAmount);
             view.update (sender);
         }
@@ -1417,7 +1418,7 @@ accountSend (ApplyView& view,
 
     if (tesSUCCESS == terResult && receiver)
     {
-        // Increment XRP balance.
+        // Increment WRT balance.
         auto const rcvBal = receiver->getFieldAmount (sfBalance);
         receiver->setFieldAmount (sfBalance, rcvBal + saAmount);
 
@@ -1676,7 +1677,7 @@ transferXRP (ApplyView& view,
             : TER {tecFAILED_PROCESSING};
     }
 
-    // Decrement XRP balance.
+    // Decrement WRT balance.
     sender->setFieldAmount (sfBalance,
         sender->getFieldAmount (sfBalance) - amount);
     view.update (sender);

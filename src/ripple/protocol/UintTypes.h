@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2014 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
+
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -58,14 +60,14 @@ using Currency = base_uint<160, detail::CurrencyTag>;
 /** NodeID is a 160-bit hash representing one node. */
 using NodeID = base_uint<160, detail::NodeIDTag>;
 
-/** XRP currency. */
+/** WRT currency. */
 Currency const& xrpCurrency();
 
 /** A placeholder for empty currencies. */
 Currency const& noCurrency();
 
-/** We deliberately disallow the currency that looks like "XRP" because too
-    many people were using it instead of the correct XRP currency. */
+/** We deliberately disallow the currency that looks like "WRT" because too
+    many people were using it instead of the correct WRT currency. */
 Currency const& badCurrency();
 
 inline bool isXRP(Currency const& c)
@@ -73,7 +75,7 @@ inline bool isXRP(Currency const& c)
     return c == beast::zero;
 }
 
-/** Returns "", "XRP", or three letter ISO code. */
+/** Returns "", "WRT", or three letter ISO code. */
 std::string to_string(Currency const& c);
 
 /** Tries to convert a string to a Currency, returns true on success. */

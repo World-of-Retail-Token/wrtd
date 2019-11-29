@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -142,8 +143,7 @@ using sha512_hasher = openssl_sha512_hasher;
     stored in the account root.
 
     The same computation is used regardless of the cryptographic
-    scheme implied by the public key. For example, the public key
-    may be an ed25519 public key or a secp256k1 public key. Support
+    scheme implied by the public key. Support
     for new cryptographic systems may be added, using the same
     formula for calculating the account identifier.
 

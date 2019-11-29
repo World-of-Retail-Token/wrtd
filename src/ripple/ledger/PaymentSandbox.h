@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -193,7 +194,7 @@ public:
     // Return a map of balance changes on trust lines. The low account is the
     // first account in the key. If the two accounts are equal, the map contains
     // the total changes in currency regardless of issuer. This is useful to get
-    // the total change in XRP balances.
+    // the total change in WRT balances.
     std::map<std::tuple<AccountID, AccountID, Currency>, STAmount>
     balanceChanges (ReadView const& view) const;
 

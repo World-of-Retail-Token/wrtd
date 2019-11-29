@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -2309,7 +2310,7 @@ Json::Value NetworkOPsImp::getServerInfo (bool human, bool admin, bool counters)
 
         /* Json::Value doesn't support uint64, so clamp to max
             uint32 value. This is mostly theoretical, since there
-            probably isn't enough extant XRP to drive the factor
+            probably isn't enough extant WRT to drive the factor
             that high.
         */
         info[jss::load_factor_fee_escalation] =

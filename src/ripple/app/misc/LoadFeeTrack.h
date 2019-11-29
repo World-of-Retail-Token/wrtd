@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -33,7 +34,7 @@ struct Fees;
 /** Manages the current fee schedule.
 
     The "base" fee is the cost to send a reference transaction under no load,
-    expressed in millionths of one XRP.
+    expressed in millionths of one WRT.
 
     The "load" fee is how much the local server currently charges to send a
     reference transaction. This fee fluctuates based on the load of the

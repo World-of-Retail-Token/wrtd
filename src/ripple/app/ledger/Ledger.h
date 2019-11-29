@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -93,8 +94,8 @@ public:
         computed from the string "masterpassphrase" and ordinal
         zero.
 
-        The account has an XRP balance equal to the total amount
-        of XRP in the system. No more XRP than the amount which
+        The account has an WRT balance equal to the total amount
+        of WRT in the system. No more WRT than the amount which
         starts in this account can ever exist, with amounts
         used to pay fees being destroyed.
 

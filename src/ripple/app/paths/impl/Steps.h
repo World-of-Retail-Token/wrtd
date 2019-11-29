@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -58,9 +59,9 @@ issues(DebtDirection dir)
    There are five concrete step classes:
      DirectStepI is an IOU step between accounts
      BookStepII is an IOU/IOU offer book
-     BookStepIX is an IOU/XRP offer book
-     BookStepXI is an XRP/IOU offer book
-     XRPEndpointStep is the source or destination account for XRP
+     BookStepIX is an IOU/WRT offer book
+     BookStepXI is an WRT/IOU offer book
+     XRPEndpointStep is the source or destination account for WRT
 
    Amounts may be transformed through a step in either the forward or the
    reverse direction. In the forward direction, the function `fwd` is used to
@@ -148,7 +149,7 @@ public:
     }
 
     // for debugging. Return the src and dst accounts for a direct step
-    // For XRP endpoints, one of src or dst will be the root account
+    // For WRT endpoints, one of src or dst will be the root account
     virtual boost::optional<std::pair<AccountID,AccountID>>
     directStepAccts () const
     {

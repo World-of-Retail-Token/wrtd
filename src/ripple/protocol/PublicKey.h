@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -21,7 +22,6 @@
 #define RIPPLE_PROTOCOL_PUBLICKEY_H_INCLUDED
 
 #include <ripple/basics/Slice.h>
-#include <ripple/crypto/KeyType.h> // move to protocol/
 #include <ripple/protocol/STExchange.h>
 #include <ripple/protocol/tokens.h>
 #include <ripple/protocol/UintTypes.h>
@@ -43,18 +43,13 @@ namespace ripple {
     information needed to determine the cryptosystem
     parameters used is stored inside the key.
 
-    As of this writing two systems are supported:
+    As of this writing one system is supported:
 
         secp256k1
-        ed25519
 
     secp256k1 public keys consist of a 33 byte
     compressed public key, with the lead byte equal
     to 0x02 or 0x03.
-
-    The ed25519 public keys consist of a 1 byte
-    prefix constant 0xED, followed by 32 bytes of
-    public key data.
 */
 class PublicKey
 {
@@ -72,7 +67,7 @@ public:
     /** Create a public key.
 
         Preconditions:
-            publicKeyType(slice) != boost::none
+            isPublicKey(slice) != false
     */
     explicit
     PublicKey (Slice const& slice);
@@ -235,22 +230,15 @@ enum class ECDSACanonicality
 boost::optional<ECDSACanonicality>
 ecdsaCanonicality (Slice const& sig);
 
-/** Returns the type of public key.
-
-    @return boost::none If the public key does not
-            represent a known type.
-*/
-/** @{ */
-boost::optional<KeyType>
-publicKeyType (Slice const& slice);
-
-inline
-boost::optional<KeyType>
-publicKeyType (PublicKey const& publicKey)
+ /** Checks the validity of public key */
+inline 
+bool
+isPublicKey (Slice const& slice)
 {
-    return publicKeyType (publicKey.slice());
+    return (slice.size() == 33 &&
+        (slice[0] == 0x02 ||
+            slice[0] == 0x03)); 
 }
-/** @} */
 
 /** Verify a secp256k1 signature on the digest of a message. */
 bool

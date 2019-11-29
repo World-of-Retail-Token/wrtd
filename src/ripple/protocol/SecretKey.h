@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -22,7 +23,6 @@
 
 #include <ripple/basics/Buffer.h>
 #include <ripple/basics/Slice.h>
-#include <ripple/crypto/KeyType.h> // move to protocol/
 #include <ripple/protocol/PublicKey.h>
 #include <ripple/protocol/Seed.h>
 #include <ripple/protocol/tokens.h>
@@ -119,6 +119,11 @@ template <>
 boost::optional<SecretKey>
 parseBase58 (TokenType type, std::string const& s);
 
+
+template<>
+boost::optional<SecretKey>
+parseHex (std::string const& str);
+
 inline
 std::string
 toBase58 (TokenType type, SecretKey const& sk)
@@ -127,17 +132,28 @@ toBase58 (TokenType type, SecretKey const& sk)
         type, sk.data(), sk.size());
 }
 
+inline
+std::string
+toWIF(SecretKey const& sk)
+{
+    std::vector<uint8_t> k;
+    k.assign(sk.data(), sk.data() + sk.size());
+    k.push_back(1);
+    return base58EncodeToken(
+        TokenType::AccountWif, k.data(), k.size());
+}
+
 /** Create a secret key using secure random numbers. */
 SecretKey
 randomSecretKey();
 
 /** Generate a new secret key deterministically. */
 SecretKey
-generateSecretKey (KeyType type, Seed const& seed);
+generateSecretKey (Seed const& seed);
 
 /** Derive the public key from a secret key. */
 PublicKey
-derivePublicKey (KeyType type, SecretKey const& sk);
+derivePublicKey (SecretKey const& sk);
 
 /** Generate a key pair deterministically.
 
@@ -148,16 +164,13 @@ derivePublicKey (KeyType type, SecretKey const& sk);
     corresponding to ordinal 0 for the generator.
 */
 std::pair<PublicKey, SecretKey>
-generateKeyPair (KeyType type, Seed const& seed);
+generateKeyPair (Seed const& seed, bool fCompat);
 
 /** Create a key pair using secure random numbers. */
 std::pair<PublicKey, SecretKey>
-randomKeyPair (KeyType type);
+randomKeyPair ();
 
 /** Generate a signature for a message digest.
-    This can only be used with secp256k1 since Ed25519's
-    security properties come, in part, from how the message
-    is hashed.
 */
 /** @{ */
 Buffer
@@ -166,10 +179,9 @@ signDigest (PublicKey const& pk, SecretKey const& sk,
 
 inline
 Buffer
-signDigest (KeyType type, SecretKey const& sk,
-    uint256 const& digest)
+signDigest (SecretKey const& sk, uint256 const& digest)
 {
-    return signDigest (derivePublicKey(type, sk), sk, digest);
+    return signDigest (derivePublicKey(sk), sk, digest);
 }
 /** @} */
 
@@ -184,10 +196,9 @@ sign (PublicKey const& pk,
 
 inline
 Buffer
-sign (KeyType type, SecretKey const& sk,
-    Slice const& message)
+sign (SecretKey const& sk, Slice const& message)
 {
-    return sign (derivePublicKey(type, sk), sk, message);
+    return sign (derivePublicKey(sk), sk, message);
 }
 /** @} */
 

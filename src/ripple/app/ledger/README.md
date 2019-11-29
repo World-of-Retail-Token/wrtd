@@ -63,7 +63,7 @@ that the validator sends its proposals and validations to the network.
 
 ## Ledger Priorities ##
 
-There are two ledgers that are the most important for a rippled server to have:
+There are two ledgers that are the most important for a wrtd server to have:
 
  - The consensus ledger and
  - The last validated ledger.
@@ -357,7 +357,7 @@ Lists all of the offers and trust lines that are associated with an account.
 Lists one or more offers that have the same quality.
 
 If a pair of Currency and Issuer fields are all zeros, then that pair is
-dealing in XRP.
+dealing in WRT.
 
 The code, at the moment, does not recognize that the Currency and Issuer
 fields are currencies and issuers.  So those values are presented in hex,

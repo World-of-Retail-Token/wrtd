@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -104,7 +105,7 @@ bool PathState::lessPriority (PathState const& lhs, PathState const& rhs)
 //   account.
 // - Offers can only go directly to another offer if the currency and issuer are
 //   an exact match.
-// - Real issuers must be specified for non-XRP.
+// - Real issuers must be specified for non-WRT.
 TER PathState::pushImpliedNodes (
     AccountID const& account,    // --> Delivering to this account.
     Currency const& currency,  // --> Delivering this currency.
@@ -135,7 +136,7 @@ TER PathState::pushImpliedNodes (
     }
 
 
-    // For ripple, non-XRP, ensure the issuer is on at least one side of the
+    // For ripple, non-WRT, ensure the issuer is on at least one side of the
     // transaction.
     if (resultCode == tesSUCCESS
         && !isXRP(currency)
@@ -210,7 +211,7 @@ TER PathState::pushNode (
     }
     else if (hasIssuer && isXRP (node.issue_))
     {
-        JLOG (j_.debug()) << "pushNode: issuer specified for XRP.";
+        JLOG (j_.debug()) << "pushNode: issuer specified for WRT.";
 
         resultCode = temBAD_PATH;
     }
@@ -429,24 +430,24 @@ TER PathState::expandPath (
     AccountID const& issuerOutID = saOutReq.getIssuer ();
     AccountID const& uSenderIssuerID
         = isXRP(uMaxCurrencyID) ? xrpAccount() : uSenderID;
-    // Sender is always issuer for non-XRP.
+    // Sender is always issuer for non-WRT.
 
     JLOG (j_.trace())
         << "expandPath> " << spSourcePath.getJson (JsonOptions::none);
 
     terStatus = tesSUCCESS;
 
-    // XRP with issuer is malformed.
+    // WRT with issuer is malformed.
     if ((isXRP (uMaxCurrencyID) && !isXRP (uMaxIssuerID))
         || (isXRP (currencyOutID) && !isXRP (issuerOutID)))
     {
         JLOG (j_.debug())
-            << "expandPath> issuer with XRP";
+            << "expandPath> issuer with WRT";
         terStatus   = temBAD_PATH;
     }
 
     // Push sending node.
-    // For non-XRP, issuer is always sending account.
+    // For non-WRT, issuer is always sending account.
     // - Trying to expand, not-compact.
     // - Every issuer will be traversed through.
     if (terStatus == tesSUCCESS)
@@ -471,7 +472,7 @@ TER PathState::expandPath (
     if (tesSUCCESS == terStatus && uMaxIssuerID != uSenderIssuerID)
     {
         // May have an implied account node.
-        // - If it was XRP, then issuers would have matched.
+        // - If it was WRT, then issuers would have matched.
 
         // Figure out next node properties for implied node.
         const auto uNxtCurrencyID  = spSourcePath.size ()
@@ -500,7 +501,7 @@ TER PathState::expandPath (
         // Can't just use push implied, because it can't compensate for next
         // account.
         if (!uNxtCurrencyID
-            // Next is XRP, offer next. Must go through issuer.
+            // Next is WRT, offer next. Must go through issuer.
             || uMaxCurrencyID != uNxtCurrencyID
             // Next is different currency, offer next...
             || uMaxIssuerID != nextAccountID)
@@ -536,7 +537,7 @@ TER PathState::expandPath (
     }
 
     if (terStatus == tesSUCCESS
-        && !isXRP(currencyOutID)               // Next is not XRP
+        && !isXRP(currencyOutID)               // Next is not WRT
         && issuerOutID != uReceiverID)         // Out issuer is not receiver
     {
         assert (!nodes_.empty ());

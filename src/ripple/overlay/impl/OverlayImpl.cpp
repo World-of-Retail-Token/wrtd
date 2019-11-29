@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -525,14 +526,9 @@ OverlayImpl::onPrepare()
     // servers to serve as bootstrap:
     if (bootstrapIps.empty ())
     {
-        // Pool of servers operated by Ripple Labs Inc. - https://ripple.com
-        bootstrapIps.push_back("r.ripple.com 51235");
-
-        // Pool of servers operated by Alloy Networks - https://www.alloy.ee
-        bootstrapIps.push_back("zaphod.alloy.ee 51235");
-        
-        // Pool of servers operated by ISRDC - https://isrdc.in
-        bootstrapIps.push_back("sahyadri.isrdc.in 51235");
+        bootstrapIps.push_back("wrt1.wr.company 41235");
+        bootstrapIps.push_back("wrt2.wr.company 41235");
+        bootstrapIps.push_back("wrt3.wr.company 41235");
     }
 
     m_resolver.resolve (bootstrapIps,
@@ -557,7 +553,7 @@ OverlayImpl::onPrepare()
                 m_peerFinder->addFallbackStrings (base + name, ips);
         });
 
-    // Add the ips_fixed from the rippled.cfg file
+    // Add the ips_fixed from the wrtd.cfg file
     if (! app_.config().standalone() && !app_.config().IPS_FIXED.empty ())
     {
         m_resolver.resolve (app_.config().IPS_FIXED,

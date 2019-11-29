@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -24,14 +25,14 @@ namespace ripple {
 std::atomic<UptimeClock::rep>  UptimeClock::now_{0};      // seconds since start
 std::atomic<bool>              UptimeClock::stop_{false}; // stop update thread
 
-// On rippled shutdown, cancel and wait for the update thread
+// On wrtd shutdown, cancel and wait for the update thread
 UptimeClock::update_thread::~update_thread()
 {
     if (joinable())
     {
         stop_ = true;
         // This join() may take up to a 1s, but happens only
-        // once at rippled shutdown.
+        // once at wrtd shutdown.
         join();
     }
 }
@@ -56,7 +57,7 @@ UptimeClock::start_clock()
                          }};
 }
 
-// This actually measures time since first use, instead of since rippled start.
+// This actually measures time since first use, instead of since wrtd start.
 // However the difference between these two epochs is a small fraction of a second
 // and unimportant.
 
@@ -66,7 +67,7 @@ UptimeClock::now()
     // start the update thread on first use
     static const auto init = start_clock();
 
-    // Return the number of seconds since rippled start
+    // Return the number of seconds since wrtd start
     return time_point{duration{now_}};
 }
 

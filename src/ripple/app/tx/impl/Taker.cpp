@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2014 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
+
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -64,7 +66,7 @@ BasicTaker::BasicTaker (
     assert (cross_type != CrossType::IouToXrp ||
         (!isXRP (issue_in ()) && isXRP (issue_out ())));
 
-    // And make sure we're not crossing XRP for XRP
+    // And make sure we're not crossing WRT for WRT
     assert (!isXRP (issue_in ()) || !isXRP (issue_out ()));
 
     // If this is a passive order, we adjust the quality so as to prevent offers
@@ -434,14 +436,14 @@ BasicTaker::do_cross (
         leg2_out_funds = std::max (leg2_out_funds, offer2.out);
     }
 
-    // The amount available to flow via XRP is the amount that the owner of the
+    // The amount available to flow via WRT is the amount that the owner of the
     // first leg of the bridge has, up to the first leg's output.
     //
     // But, when both legs of a bridge are owned by the same person, the amount
-    // of XRP that can flow between the two legs is, essentially, infinite
-    // since all the owner is doing is taking out XRP of his left pocket
+    // of WRT that can flow between the two legs is, essentially, infinite
+    // since all the owner is doing is taking out WRT of his left pocket
     // and putting it in his right pocket. In that case, we set the available
-    // XRP to the largest of the two offers.
+    // WRT to the largest of the two offers.
     auto xrp_funds = get_funds (owner1, offer1.out);
 
     if (owner1 == owner2)
@@ -475,8 +477,8 @@ BasicTaker::do_cross (
         Throw<std::logic_error> ("Computed flow2 fails sanity check.");
 
     // We now have the maximal flows across each leg individually. We need to
-    // equalize them, so that the amount of XRP that flows out of the first leg
-    // is the same as the amount of XRP that flows into the second leg. We take
+    // equalize them, so that the amount of WRT that flows out of the first leg
+    // is the same as the amount of WRT that flows into the second leg. We take
     // the side which is the limiting factor (if any) and adjust the other.
     if (flow1.order.out < flow2.order.in)
     {
@@ -594,7 +596,7 @@ TER Taker::redeemIOU (
     Issue const& issue)
 {
     if (isXRP (amount))
-        Throw<std::logic_error> ("Using redeemIOU with XRP");
+        Throw<std::logic_error> ("Using redeemIOU with WRT");
 
     if (account == issue.account)
         return tesSUCCESS;
@@ -622,7 +624,7 @@ TER Taker::issueIOU (
     Issue const& issue)
 {
     if (isXRP (amount))
-        Throw<std::logic_error> ("Using issueIOU with XRP");
+        Throw<std::logic_error> ("Using issueIOU with WRT");
 
     if (account == issue.account)
         return tesSUCCESS;
@@ -708,7 +710,7 @@ Taker::fill (
             result = issueIOU (leg1.owner (), flow1.order.in, flow1.order.in.issue ());
     }
 
-    // leg1 to leg2: bridging over XRP
+    // leg1 to leg2: bridging over WRT
     if (result == tesSUCCESS)
         result = transferXRP (leg1.owner (), leg2.owner (), flow1.order.out);
 
@@ -734,7 +736,7 @@ Taker::fill (
 TER
 Taker::cross (Offer& offer)
 {
-    // In direct crossings, at least one leg must not be XRP.
+    // In direct crossings, at least one leg must not be WRT.
     if (isXRP (offer.amount ().in) && isXRP (offer.amount ().out))
         return tefINTERNAL;
 
@@ -747,7 +749,7 @@ Taker::cross (Offer& offer)
 TER
 Taker::cross (Offer& leg1, Offer& leg2)
 {
-    // In bridged crossings, XRP must can't be the input to the first leg
+    // In bridged crossings, WRT must can't be the input to the first leg
     // or the output of the second leg.
     if (isXRP (leg1.amount ().in) || isXRP (leg2.amount ().out))
         return tefINTERNAL;

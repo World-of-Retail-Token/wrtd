@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
     Copyright (c) 2019 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -45,7 +45,7 @@ DeleteAccount::preflight (PreflightContext const& ctx)
         return ret;
 
     if (ctx.tx[sfAccount] == ctx.tx[sfDestination])
-        // An account cannot be deleted and give itself the resulting XRP.
+        // An account cannot be deleted and give itself the resulting WRT.
         return temDST_IS_SRC;
 
     return preflight2 (ctx);
@@ -287,7 +287,7 @@ DeleteAccount::doApply ()
             view(), ownerDirKeylet.key, sleDirNode, uDirEntry, dirEntry, j_));
     }
 
-    // Transfer any XRP remaining after the fee is paid to the destination:
+    // Transfer any WRT remaining after the fee is paid to the destination:
     (*dst)[sfBalance] = (*dst)[sfBalance] + mSourceBalance;
     (*src)[sfBalance] = (*src)[sfBalance] - mSourceBalance;
     ctx_.deliver (mSourceBalance);

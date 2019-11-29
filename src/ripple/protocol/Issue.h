@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -66,7 +67,7 @@ hash_append(Hasher& h, Issue const& r)
 
 /** Ordered comparison.
     The assets are ordered first by currency and then by account,
-    if the currency is not XRP.
+    if the currency is not WRT.
 */
 int
 compare (Issue const& lhs, Issue const& rhs);
@@ -93,7 +94,7 @@ operator<= (Issue const& lhs, Issue const& rhs);
 
 //------------------------------------------------------------------------------
 
-/** Returns an asset specifier that represents XRP. */
+/** Returns an asset specifier that represents WRT. */
 inline Issue const& xrpIssue ()
 {
     static Issue issue {xrpCurrency(), xrpAccount()};

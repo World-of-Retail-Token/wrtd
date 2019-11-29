@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2015 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
+
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -98,7 +100,7 @@ ValidatorList::load (
 
         auto const ret = strUnHex (key);
 
-        if (! ret || ! publicKeyType(makeSlice(*ret)))
+        if (! ret || ! isPublicKey(makeSlice(*ret)))
         {
             JLOG (j_.error()) <<
                 "Invalid validator list publisher key: " << key;
@@ -230,7 +232,7 @@ ValidatorList::applyList (
         {
             boost::optional<Blob> const ret = strUnHex(val["validation_public_key"].asString());
 
-            if (! ret || ! publicKeyType(makeSlice(*ret)))
+            if (! ret || ! isPublicKey(makeSlice(*ret)))
             {
                 JLOG (j_.error()) <<
                     "Invalid node identity: " <<
@@ -579,6 +581,13 @@ ValidatorList::getJson() const
             }
         });
 
+    // Manifests data
+    Json::Value& jManifests = (res[jss::loaded_manifests] = Json::arrayValue);
+    validatorManifests_.for_each_manifest(
+        [&jManifests](Manifest const& manifest) {
+            jManifests.append(manifest.getJson());
+        });
+
     return res;
 }
 
@@ -607,9 +616,9 @@ ValidatorList::calculateQuorum (
     // Use an 80% quorum to balance fork safety, liveness, and required UNL
     // overlap.
     //
-    // Theorem 8 of the Analysis of the XRP Ledger Consensus Protocol
+    // Theorem 8 of the Analysis of the WRT Ledger Consensus Protocol
     // (https://arxiv.org/abs/1802.07242) says:
-    //     XRP LCP guarantees fork safety if Oi,j > nj/2 + ni − qi + ti,j for
+    //     WRT LCP guarantees fork safety if Oi,j > nj/2 + ni − qi + ti,j for
     //     every pair of nodes Pi, Pj.
     //
     // ni: size of Pi's UNL

@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -32,42 +33,40 @@ static inline
 std::string const&
 systemName ()
 {
-    static std::string const name = "ripple";
+    static std::string const name = "WRT";
     return name;
 }
 
+/** Initial 10000000000 WRTs for the genesis ledger. */
+
 /** Configure the native currency. */
 static
-std::uint64_t const
-SYSTEM_CURRENCY_GIFT = 1000;
+std::int64_t const
+SYSTEM_CURRENCY_COINS = 10000000000;
 
+/** Number of drops per 1 WRT */
 static
-std::uint64_t const
-SYSTEM_CURRENCY_USERS = 100000000;
-
-/** Number of drops per 1 XRP */
-static
-std::uint64_t const
+std::int64_t const
 SYSTEM_CURRENCY_PARTS = 1000000;
 
 /** Number of drops in the genesis account. */
 static
-std::uint64_t const
-SYSTEM_CURRENCY_START = SYSTEM_CURRENCY_GIFT * SYSTEM_CURRENCY_USERS * SYSTEM_CURRENCY_PARTS;
+std::int64_t const
+SYSTEM_CURRENCY_START = SYSTEM_CURRENCY_COINS * SYSTEM_CURRENCY_PARTS;
 
 /* The currency code for the native currency. */
 static inline
 std::string const&
 systemCurrencyCode ()
 {
-    static std::string const code = "XRP";
+    static std::string const code = "WRT";
     return code;
 }
 
-/** The XRP ledger network's earliest allowed sequence */
+/** The WRT ledger network's earliest allowed sequence */
 static
 std::uint32_t constexpr
-XRP_LEDGER_EARLIEST_SEQ {32570};
+XRP_LEDGER_EARLIEST_SEQ {1};
 
 } // ripple
 

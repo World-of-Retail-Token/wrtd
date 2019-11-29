@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -82,8 +83,8 @@ enum class OperatingMode
     needed.
 
     A backend application or local client can trust a local instance of
-    rippled / NetworkOPs. However, client software connecting to non-local
-    instances of rippled will need to be hardened to protect against hostile
+    wrtd / NetworkOPs. However, client software connecting to non-local
+    instances of wrtd will need to be hardened to protect against hostile
     or unreliable servers.
 */
 class NetworkOPs

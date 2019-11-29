@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -75,7 +76,7 @@ public:
         nt_SOURCE,     // The source account: with an issuer account, if needed.
         nt_ACCOUNTS,   // Accounts that connect from this source/currency.
         nt_BOOKS,      // Order books that connect to this currency.
-        nt_XRP_BOOK,   // The order book from this currency to XRP.
+        nt_XRP_BOOK,   // The order book from this currency to WRT.
         nt_DEST_BOOK,  // The order book to the destination currency/issuer.
         nt_DESTINATION // The destination account only.
     };
@@ -202,7 +203,7 @@ private:
     // Add order books
     static std::uint32_t const afADD_BOOKS = 0x002;
 
-    // Add order book to XRP only
+    // Add order book to WRT only
     static std::uint32_t const afOB_XRP = 0x010;
 
     // Must link to destination currency

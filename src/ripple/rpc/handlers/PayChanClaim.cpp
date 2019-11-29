@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
     Copyright (c) 2012-2014 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -36,7 +36,7 @@ namespace ripple {
 
 // {
 //   secret_key: <signing_secret_key>
-//   key_type: optional; either ed25519 or secp256k1 (default to secp256k1)
+//   key_type: optional; secp256k1 (default to secp256k1)
 //   channel_id: 256-bit channel id
 //   drops: 64-bit uint (as string)
 // }
@@ -112,8 +112,8 @@ Json::Value doChannelVerify (RPC::Context& context)
             auto pkHex = strUnHex (strPk);
             if (!pkHex)
                 return rpcError(rpcPUBLIC_MALFORMED);
-            auto const pkType = publicKeyType(makeSlice(*pkHex));
-            if (!pkType)
+            auto const valid = isPublicKey(makeSlice(*pkHex));
+            if (!valid)
                 return rpcError(rpcPUBLIC_MALFORMED);
             pk.emplace(makeSlice(*pkHex));
         }

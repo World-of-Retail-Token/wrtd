@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -76,7 +77,7 @@ preflight1 (PreflightContext const& ctx)
 
     auto const spk = ctx.tx.getSigningPubKey();
 
-    if (!spk.empty () && !publicKeyType (makeSlice (spk)))
+    if (!spk.empty () && !isPublicKey (makeSlice (spk)))
     {
         JLOG(ctx.j.debug()) << "preflight1: invalid signing key";
         return temBAD_SIGNATURE;
@@ -347,7 +348,7 @@ Transactor::checkSingleSign (PreclaimContext const& ctx)
 {
     // Check that the value in the signing key slot is a public key.
     auto const pkSigner = ctx.tx.getSigningPubKey();
-    if (!publicKeyType(makeSlice(pkSigner)))
+    if (!isPublicKey(makeSlice(pkSigner)))
     {
         JLOG(ctx.j.trace()) <<
             "checkSingleSign: signing public key type is unknown";
@@ -481,7 +482,7 @@ Transactor::checkMultiSign (PreclaimContext const& ctx)
         // public key.
         auto const spk = txSigner.getFieldVL (sfSigningPubKey);
 
-        if (!publicKeyType (makeSlice(spk)))
+        if (!isPublicKey (makeSlice(spk)))
         {
             JLOG(ctx.j.trace()) <<
                 "checkMultiSign: signing public key type is unknown";

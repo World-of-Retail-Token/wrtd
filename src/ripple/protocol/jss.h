@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -320,6 +321,7 @@ JSS ( load_fee );                   // out: LoadFeeTrackImp, NetworkOPs
 JSS ( local );                      // out: resource/Logic.h
 JSS ( local_txs );                  // out: GetCounts
 JSS ( local_static_keys );          // out: ValidatorList
+JSS ( loaded_manifests );           // out: ValidatorList
 JSS ( lowest_sequence );            // out: AccountInfo
 JSS ( majority );                   // out: RPC feature
 JSS ( marker );                     // in/out: AccountTx, AccountOffers,
@@ -379,6 +381,7 @@ JSS ( parent_close_time );          // out: LedgerToJson
 JSS ( parent_hash );                // out: LedgerToJson
 JSS ( partition );                  // in: LogLevel
 JSS ( passphrase );                 // in: WalletPropose
+JSS ( passphrase_compat );          // in: WalletPropose, TransactionSign
 JSS ( password );                   // in: Subscribe
 JSS ( paths );                      // in: RipplePathFind
 JSS ( paths_canonical );            // out: RipplePathFind
@@ -404,6 +407,8 @@ JSS ( pubkey_publisher );           // out: ValidatorList
 JSS ( pubkey_validator );           // out: NetworkOPs, ValidatorList
 JSS ( public_key );                 // out: OverlayImpl, PeerImp, WalletPropose
 JSS ( public_key_hex );             // out: WalletPropose
+JSS ( secret_key_hex );             // out: WalletPropose
+JSS ( secret_key_wif );             // out: WalletPropose
 JSS ( published_ledger );           // out: NetworkOPs
 JSS ( publisher_lists );            // out: ValidatorList
 JSS ( quality );                    // out: NetworkOPs
@@ -541,7 +546,7 @@ JSS ( validated_ledger );           // out: NetworkOPs
 JSS ( validated_ledgers );          // out: NetworkOPs
 JSS ( validation_key );             // out: ValidationCreate, ValidationSeed
 JSS ( validation_private_key );     // out: ValidationCreate
-JSS ( validation_public_key );      // out: ValidationCreate, ValidationSeed
+JSS ( validation_public_key );      // out: ValidationCreate, ValidationSeed, Manifest::getJson
 JSS ( validation_quorum );          // out: NetworkOPs
 JSS ( validation_seed );            // out: ValidationCreate, ValidationSeed
 JSS ( validations );                // out: AmendmentTableImpl
@@ -553,6 +558,8 @@ JSS ( vote );                       // in: Feature
 JSS ( warning );                    // rpc:
 JSS ( workers );
 JSS ( write_load );                 // out: GetCounts
+
+JSS ( manifest );                   // out: Manifest::getJson
 
 #undef JSS
 

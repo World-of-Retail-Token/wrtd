@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -116,7 +117,7 @@ flow (
     auto const asDeliver = toAmountSpec (deliver);
 
     // The src account may send either xrp or iou. The dst account may receive
-    // either xrp or iou. Since XRP and IOU amounts are represented by different
+    // either xrp or iou. Since WRT and IOU amounts are represented by different
     // types, use templates to tell `flow` about the amount types.
     if (srcIsXRP && dstIsXRP)
     {

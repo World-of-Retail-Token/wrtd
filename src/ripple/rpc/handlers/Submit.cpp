@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
     Copyright (c) 2012-2014 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -52,17 +52,10 @@ Json::Value doSubmit (RPC::Context& context)
             return RPC::make_error (rpcNOT_SUPPORTED,
                 "Signing is not supported by this server.");
 
-        auto ret = RPC::transactionSubmit (
+        return RPC::transactionSubmit (
             context.params, failType, context.role,
             context.ledgerMaster.getValidatedLedgerAge(),
             context.app, RPC::getProcessTxnFn (context.netOps));
-
-        ret[jss::deprecated] = "Signing support in the 'submit' command has been "
-                               "deprecated and will be removed in a future version "
-                               "of the server. Please migrate to a standalone "
-                               "signing tool.";
-
-        return ret;
     }
 
     Json::Value jvResult;

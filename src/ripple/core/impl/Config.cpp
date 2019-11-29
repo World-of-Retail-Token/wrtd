@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -133,7 +134,7 @@ bool getSingleSection (IniFileSections& secSource,
 //
 //------------------------------------------------------------------------------
 
-char const* const Config::configFileName = "rippled.cfg";
+char const* const Config::configFileName = "wrtd.cfg";
 char const* const Config::databaseDirName = "db";
 char const* const Config::validatorsFileName = "validators.txt";
 

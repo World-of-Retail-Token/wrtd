@@ -1,6 +1,6 @@
 # Fees
 
-Rippled's fee mechanism consists of several interrelated processes:
+wrtd's fee mechanism consists of several interrelated processes:
 
 1. [Rapid Fee escalation](#fee-escalation)
 2. [The Transaction Queue](#transaction-queue)
@@ -133,10 +133,10 @@ for the queue if it meets these additional criteria:
   * it pays a [fee level](#fee-level) that is greater than 10% of the
   fee level for the transaction with the previous sequence number,
   * all other queued transactions for that account, in the case where
-  they spend the maximum possible XRP, leave enough XRP balance to pay
+  they spend the maximum possible WRT, leave enough WRT balance to pay
   the fee,
   * the total fees for the other queued transactions are less than both
-  the network's minimum reserve and the account's XRP balance, and
+  the network's minimum reserve and the account's WRT balance, and
   * none of the prior queued transactions affect the ability of subsequent
   transactions to claim a fee.
 
@@ -171,9 +171,9 @@ have a fee level of
 `90 drop fee * 256 fee level / ((1tx + 5sigs) * 15 drop base fee) = 256
 fee level`.
 
-This demonstrates that a simpler transaction paying less XRP can be more
+This demonstrates that a simpler transaction paying less WRT can be more
 likely to get into the open ledger, or be sorted earlier in the queue
-than a more complex transaction paying more XRP.
+than a more complex transaction paying more WRT.
 
 ### Reference Transaction
 
@@ -182,7 +182,7 @@ single-signed transaction (eg. Payment, Account Set, Offer Create, etc)
 that requires a fee.
 
 In the future, there may be other transaction types that require
-more (or less) work for rippled to process. Those transactions may have
+more (or less) work for wrtd to process. Those transactions may have
 a higher (or lower) base fee, requiring a correspondingly higher (or
 lower) fee to get into the same position as a reference transaction.
 
@@ -266,7 +266,7 @@ values by 5 for a multi-signed transaction with 4 signatures.)
 
 The `fee` result is always instantanteous, and relates to the open
 ledger. It includes the sequence number of the current open ledger,
-but may not make sense if rippled is not synced to the network.
+but may not make sense if wrtd is not synced to the network.
 
 Result format:
 ```

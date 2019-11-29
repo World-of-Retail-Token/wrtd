@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -23,7 +24,6 @@
 #include <ripple/basics/contract.h>
 #include <ripple/basics/strHex.h>
 #include <boost/multiprecision/cpp_int.hpp>
-#include <ed25519-donna/ed25519.h>
 #include <type_traits>
 
 namespace ripple {
@@ -41,7 +41,7 @@ parseBase58 (TokenType type, std::string const& s)
 {
     auto const result = decodeBase58Token(s, type);
     auto const pks = makeSlice(result);
-    if (!publicKeyType(pks))
+    if (!isPublicKey(pks))
         return boost::none;
     return PublicKey(pks);
 }
@@ -151,36 +151,12 @@ ecdsaCanonicality (Slice const& sig)
     return ECDSACanonicality::fullyCanonical;
 }
 
-static
-bool
-ed25519Canonical (Slice const& sig)
-{
-    if (sig.size() != 64)
-        return false;
-    // Big-endian Order, the Ed25519 subgroup order
-    std::uint8_t const Order[] =
-    {
-        0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x14, 0xDE, 0xF9, 0xDE, 0xA2, 0xF7, 0x9C, 0xD6,
-        0x58, 0x12, 0x63, 0x1A, 0x5C, 0xF5, 0xD3, 0xED,
-    };
-    // Take the second half of signature
-    // and byte-reverse it to big-endian.
-    auto const le = sig.data() + 32;
-    std::uint8_t S[32];
-    std::reverse_copy(le, le + 32, S);
-    // Must be less than Order
-    return std::lexicographical_compare(
-        S, S + 32, Order, Order + 32);
-}
-
 //------------------------------------------------------------------------------
 
 PublicKey::PublicKey (Slice const& slice)
 {
-    if(! publicKeyType(slice))
-        LogicError("PublicKey::PublicKey invalid type");
+    if(! isPublicKey(slice))
+        LogicError("PublicKey::PublicKey invalid public key");
     size_ = slice.size();
     std::memcpy(buf_, slice.data(), size_);
 }
@@ -203,29 +179,14 @@ PublicKey::operator=(PublicKey const& other)
 
 //------------------------------------------------------------------------------
 
-boost::optional<KeyType>
-publicKeyType (Slice const& slice)
-{
-    if (slice.size() == 33)
-    {
-        if (slice[0] == 0xED)
-            return KeyType::ed25519;
-
-        if (slice[0] == 0x02 || slice[0] == 0x03)
-            return KeyType::secp256k1;
-    }
-
-    return boost::none;
-}
-
 bool
 verifyDigest (PublicKey const& publicKey,
     uint256 const& digest,
     Slice const& sig,
     bool mustBeFullyCanonical)
 {
-    if (publicKeyType(publicKey) != KeyType::secp256k1)
-        LogicError("sign: secp256k1 required for digest signing");
+    if (!isPublicKey(publicKey))
+        LogicError("sign: secp256k1 public key required for digest signing");
     auto const canonicality = ecdsaCanonicality(sig);
     if (! canonicality)
         return false;
@@ -279,27 +240,11 @@ verify (PublicKey const& publicKey,
     Slice const& sig,
     bool mustBeFullyCanonical)
 {
-    if (auto const type = publicKeyType(publicKey))
+    if (isPublicKey(publicKey))
     {
-        if (*type == KeyType::secp256k1)
-        {
-            return verifyDigest (publicKey,
-                sha512Half(m), sig, mustBeFullyCanonical);
-        }
-        else if (*type == KeyType::ed25519)
-        {
-            if (! ed25519Canonical(sig))
-                return false;
-
-            // We internally prefix Ed25519 keys with a 0xED
-            // byte to distinguish them from secp256k1 keys
-            // so when verifying the signature, we need to
-            // first strip that prefix.
-            return ed25519_sign_open(
-                m.data(), m.size(), publicKey.data() + 1,
-                    sig.data()) == 0;
-        }
-    }
+        return verifyDigest (publicKey,
+            sha512Half(m), sig, mustBeFullyCanonical);
+    }    
     return false;
 }
 

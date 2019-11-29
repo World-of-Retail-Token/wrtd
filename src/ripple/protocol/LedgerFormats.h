@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -132,7 +133,7 @@ enum LedgerSpecificFlags
     lsfPasswordSpent    = 0x00010000,   // True, if password set fee is spent.
     lsfRequireDestTag   = 0x00020000,   // True, to require a DestinationTag for payments.
     lsfRequireAuth      = 0x00040000,   // True, to require a authorization to hold IOUs.
-    lsfDisallowXRP      = 0x00080000,   // True, to disallow sending XRP.
+    lsfDisallowXRP      = 0x00080000,   // True, to disallow sending WRT.
     lsfDisableMaster    = 0x00100000,   // True, force regular key
     lsfNoFreeze         = 0x00200000,   // True, cannot freeze ripple states
     lsfGlobalFreeze     = 0x00400000,   // True, all assets frozen

@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -630,14 +631,14 @@ STAmount::isEquivalent (const STBase& t) const
 // Representation range is 10^80 - 10^(-80).
 //
 // On the wire:
-// - high bit is 0 for XRP, 1 for issued currency
+// - high bit is 0 for WRT, 1 for issued currency
 // - next bit is 1 for positive, 0 for negative (except 0 issued currency, which
 //      is a special case of 0x8000000000000000
 // - for issued currencies, the next 8 bits are (mOffset+97).
 //   The +97 is so that this value is always positive.
 // - The remaining bits are significant digits (mantissa)
 //   That's 54 bits for issued currency and 62 bits for native
-//   (but XRP only needs 57 bits for the max value of 10^17 drops)
+//   (but WRT only needs 57 bits for the max value of 10^17 drops)
 //
 // mValue is zero if the amount is zero, otherwise it's within the range
 //    10^15 to (10^16 - 1) inclusive.
@@ -775,9 +776,9 @@ amountFromString (Issue const& issue, std::string const& amount)
 
     bool negative = (match[1].matched && (match[1] == "-"));
 
-    // Can't specify XRP using fractional representation
+    // Can't specify WRT using fractional representation
     if (isXRP(issue) && match[3].matched)
-        Throw<std::runtime_error> ("XRP must be specified in integral drops.");
+        Throw<std::runtime_error> ("WRT must be specified in integral drops.");
 
     std::uint64_t mantissa;
     int exponent;
@@ -820,7 +821,7 @@ amountFromJson (SField const& name, Json::Value const& v)
 
     if (v.isNull())
     {
-        Throw<std::runtime_error> ("XRP may not be specified with a null Json value");
+        Throw<std::runtime_error> ("WRT may not be specified with a null Json value");
     }
     else if (v.isObject())
     {
@@ -863,12 +864,12 @@ amountFromJson (SField const& name, Json::Value const& v)
     if (native)
     {
         if (v.isObjectOrNull ())
-            Throw<std::runtime_error> ("XRP may not be specified as an object");
+            Throw<std::runtime_error> ("WRT may not be specified as an object");
         issue = xrpIssue ();
     }
     else
     {
-        // non-XRP
+        // non-WRT
         if (! to_currency (issue.currency, currency.asString ()))
             Throw<std::runtime_error> ("invalid currency");
 

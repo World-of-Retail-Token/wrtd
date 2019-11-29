@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -180,7 +181,7 @@ TER PathCursor::deliverNodeForward (
             {
                 // ? --> OFFER --> account
                 // Input fees: vary based upon the consumed offer's owner.
-                // Output fees: none as XRP or the destination account is the
+                // Output fees: none as WRT or the destination account is the
                 // issuer.
 
                 saOutPassAct = saOutPassMax;
@@ -195,7 +196,7 @@ TER PathCursor::deliverNodeForward (
                     << " saOutPassAct=" << saOutPassAct
                     << " saOutFunded=" << saOutFunded;
 
-                // Output: Debit offer owner, send XRP or non-XPR to next
+                // Output: Debit offer owner, send WRT or non-WRT to next
                 // account.
                 resultCode = accountSend(view(),
                     node().offerOwnerAccount_,

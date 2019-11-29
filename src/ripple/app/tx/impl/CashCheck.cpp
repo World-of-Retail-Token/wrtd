@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2017 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
+
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -173,9 +175,9 @@ CashCheck::preclaim (PreclaimContext const& ctx)
             STAmount availableFunds {accountFunds (ctx.view,
                 (*sleCheck)[sfAccount], value, fhZERO_IF_FROZEN, ctx.j)};
 
-            // Note that src will have one reserve's worth of additional XRP
+            // Note that src will have one reserve's worth of additional WRT
             // once the check is cashed, since the check's reserve will no
-            // longer be required.  So, if we're dealing in XRP, we add one
+            // longer be required.  So, if we're dealing in WRT, we add one
             // reserve's worth to the available funds.
             if (value.native())
                 availableFunds += XRPAmount (ctx.view.fees().increment);
@@ -288,10 +290,10 @@ CashCheck::doApply ()
     {
         STAmount const sendMax {sleCheck->getFieldAmount (sfSendMax)};
 
-        // Flow() doesn't do XRP to XRP transfers.
+        // Flow() doesn't do WRT to WRT transfers.
         if (sendMax.native())
         {
-            // Here we need to calculate the amount of XRP sleSrc can send.
+            // Here we need to calculate the amount of WRT sleSrc can send.
             // The amount they have available is their balance minus their
             // reserve.
             //
@@ -310,7 +312,7 @@ CashCheck::doApply ()
             {
                 // Vote no. However the transaction might succeed if applied
                 // in a different order.
-                JLOG(j_.trace()) << "Cash Check: Insufficient XRP: "
+                JLOG(j_.trace()) << "Cash Check: Insufficient WRT: "
                     << srcLiquid.getFullText()
                     << " < " << xrpDeliver.getFullText();
                 return tecUNFUNDED_PAYMENT;
@@ -320,7 +322,7 @@ CashCheck::doApply ()
                 // Set the DeliveredAmount metadata.
                 ctx_.deliver (xrpDeliver);
 
-            // The source account has enough XRP so make the ledger change.
+            // The source account has enough WRT so make the ledger change.
             if (TER const ter {transferXRP (
                 psb, srcId, account_, xrpDeliver, viewJ)}; ter != tesSUCCESS)
             {

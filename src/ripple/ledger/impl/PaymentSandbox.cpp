@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -221,8 +222,8 @@ PaymentSandbox::balanceHook (AccountID const& account,
     }
 
     if (isXRP(issuer) && adjustedAmt < beast::zero)
-        // A calculated negative XRP balance is not an error case. Consider a
-        // payment snippet that credits a large XRP amount and then debits the
+        // A calculated negative WRT balance is not an error case. Consider a
+        // payment snippet that credits a large WRT amount and then debits the
         // same amount. The credit can't be used but we subtract the debit and
         // calculate a negative value. It's not an error case.
         adjustedAmt.clear();
@@ -281,7 +282,7 @@ PaymentSandbox::balanceChanges (ReadView const& view) const
     using key_t = std::tuple<AccountID, AccountID, Currency>;
     // Map of delta trust lines. As a special case, when both ends of the trust
     // line are the same currency, then it's delta currency for that issuer. To
-    // get the change in XRP balance, Account == root, issuer == root, currency == XRP
+    // get the change in WRT balance, Account == root, issuer == root, currency == WRT
     std::map<key_t, STAmount> result;
 
     // populate a dictionary with low/high/currency/delta. This can be

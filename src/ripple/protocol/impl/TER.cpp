@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -43,8 +44,8 @@ transResults()
         { tecFAILED_PROCESSING,      { "tecFAILED_PROCESSING",     "Failed to correctly process transaction."                                      } },
         { tecINSUF_RESERVE_LINE,     { "tecINSUF_RESERVE_LINE",    "Insufficient reserve to add trust line."                                       } },
         { tecINSUF_RESERVE_OFFER,    { "tecINSUF_RESERVE_OFFER",   "Insufficient reserve to create offer."                                         } },
-        { tecNO_DST,                 { "tecNO_DST",                "Destination does not exist. Send XRP to create it."                            } },
-        { tecNO_DST_INSUF_XRP,       { "tecNO_DST_INSUF_XRP",      "Destination does not exist. Too little XRP sent to create it."                 } },
+        { tecNO_DST,                 { "tecNO_DST",                "Destination does not exist. Send WRT to create it."                            } },
+        { tecNO_DST_INSUF_XRP,       { "tecNO_DST_INSUF_XRP",      "Destination does not exist. Too little WRT sent to create it."                 } },
         { tecNO_LINE_INSUF_RESERVE,  { "tecNO_LINE_INSUF_RESERVE", "No such line. Too little reserve to create it."                                } },
         { tecNO_LINE_REDUNDANT,      { "tecNO_LINE_REDUNDANT",     "Can't set non-existent line to default."                                       } },
         { tecPATH_DRY,               { "tecPATH_DRY",              "Path could not send partial amount."                                           } },
@@ -53,9 +54,9 @@ transResults()
         { tecNO_REGULAR_KEY,         { "tecNO_REGULAR_KEY",        "Regular key is not set."                                                       } },
         { tecOVERSIZE,               { "tecOVERSIZE",              "Object exceeded serialization limits."                                         } },
         { tecUNFUNDED,               { "tecUNFUNDED",              "One of _ADD, _OFFER, or _SEND. Deprecated."                                    } },
-        { tecUNFUNDED_ADD,           { "tecUNFUNDED_ADD",          "Insufficient XRP balance for WalletAdd."                                       } },
+        { tecUNFUNDED_ADD,           { "tecUNFUNDED_ADD",          "Insufficient WRT balance for WalletAdd."                                       } },
         { tecUNFUNDED_OFFER,         { "tecUNFUNDED_OFFER",        "Insufficient balance to fund created offer."                                   } },
-        { tecUNFUNDED_PAYMENT,       { "tecUNFUNDED_PAYMENT",      "Insufficient XRP balance to send."                                             } },
+        { tecUNFUNDED_PAYMENT,       { "tecUNFUNDED_PAYMENT",      "Insufficient WRT balance to send."                                             } },
         { tecOWNERS,                 { "tecOWNERS",                "Non-zero owner count."                                                         } },
         { tecNO_ISSUER,              { "tecNO_ISSUER",             "Issuer account does not exist."                                                } },
         { tecNO_AUTH,                { "tecNO_AUTH",               "Not authorized to hold asset."                                                 } },
@@ -115,7 +116,7 @@ transResults()
         { temBAD_AMOUNT,             { "temBAD_AMOUNT",            "Can only send positive amounts."                                               } },
         { temBAD_CURRENCY,           { "temBAD_CURRENCY",          "Malformed: Bad currency."                                                      } },
         { temBAD_EXPIRATION,         { "temBAD_EXPIRATION",        "Malformed: Bad expiration."                                                    } },
-        { temBAD_FEE,                { "temBAD_FEE",               "Invalid fee, negative or not XRP."                                             } },
+        { temBAD_FEE,                { "temBAD_FEE",               "Invalid fee, negative or not WRT."                                             } },
         { temBAD_ISSUER,             { "temBAD_ISSUER",            "Malformed: Bad issuer."                                                        } },
         { temBAD_LIMIT,              { "temBAD_LIMIT",             "Limits must be non-negative."                                                  } },
         { temBAD_OFFER,              { "temBAD_OFFER",             "Malformed: Bad offer."                                                         } },
@@ -123,11 +124,11 @@ transResults()
         { temBAD_PATH_LOOP,          { "temBAD_PATH_LOOP",         "Malformed: Loop in path."                                                      } },
         { temBAD_QUORUM,             { "temBAD_QUORUM",            "Malformed: Quorum is unreachable."                                             } },
         { temBAD_REGKEY,             { "temBAD_REGKEY",            "Malformed: Regular key cannot be same as master key."                          } },
-        { temBAD_SEND_XRP_LIMIT,     { "temBAD_SEND_XRP_LIMIT",    "Malformed: Limit quality is not allowed for XRP to XRP."                       } },
-        { temBAD_SEND_XRP_MAX,       { "temBAD_SEND_XRP_MAX",      "Malformed: Send max is not allowed for XRP to XRP."                            } },
-        { temBAD_SEND_XRP_NO_DIRECT, { "temBAD_SEND_XRP_NO_DIRECT","Malformed: No Ripple direct is not allowed for XRP to XRP."                    } },
-        { temBAD_SEND_XRP_PARTIAL,   { "temBAD_SEND_XRP_PARTIAL",  "Malformed: Partial payment is not allowed for XRP to XRP."                     } },
-        { temBAD_SEND_XRP_PATHS,     { "temBAD_SEND_XRP_PATHS",    "Malformed: Paths are not allowed for XRP to XRP."                              } },
+        { temBAD_SEND_XRP_LIMIT,     { "temBAD_SEND_XRP_LIMIT",    "Malformed: Limit quality is not allowed for WRT to WRT."                       } },
+        { temBAD_SEND_XRP_MAX,       { "temBAD_SEND_XRP_MAX",      "Malformed: Send max is not allowed for WRT to WRT."                            } },
+        { temBAD_SEND_XRP_NO_DIRECT, { "temBAD_SEND_XRP_NO_DIRECT","Malformed: No Ripple direct is not allowed for WRT to WRT."                    } },
+        { temBAD_SEND_XRP_PARTIAL,   { "temBAD_SEND_XRP_PARTIAL",  "Malformed: Partial payment is not allowed for WRT to WRT."                     } },
+        { temBAD_SEND_XRP_PATHS,     { "temBAD_SEND_XRP_PATHS",    "Malformed: Paths are not allowed for WRT to WRT."                              } },
         { temBAD_SEQUENCE,           { "temBAD_SEQUENCE",          "Malformed: Sequence is not in the past."                                       } },
         { temBAD_SIGNATURE,          { "temBAD_SIGNATURE",         "Malformed: Bad signature."                                                     } },
         { temBAD_SIGNER,             { "temBAD_SIGNER",            "Malformed: No signer may duplicate account or other signers."                  } },

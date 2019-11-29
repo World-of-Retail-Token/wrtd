@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
     Copyright (c) 2012-2014 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -114,11 +114,11 @@ Json::Value doBookOffers (RPC::Context& context)
     if (isXRP (pay_currency) && ! isXRP (pay_issuer))
         return RPC::make_error (
             rpcSRC_ISR_MALFORMED, "Unneeded field 'taker_pays.issuer' for "
-            "XRP currency specification.");
+            "WRT currency specification.");
 
     if (!isXRP (pay_currency) && isXRP (pay_issuer))
         return RPC::make_error (rpcSRC_ISR_MALFORMED,
-            "Invalid field 'taker_pays.issuer', expected non-XRP issuer.");
+            "Invalid field 'taker_pays.issuer', expected non-WRT issuer.");
 
     AccountID get_issuer;
 
@@ -145,11 +145,11 @@ Json::Value doBookOffers (RPC::Context& context)
     if (isXRP (get_currency) && ! isXRP (get_issuer))
         return RPC::make_error (rpcDST_ISR_MALFORMED,
             "Unneeded field 'taker_gets.issuer' for "
-                               "XRP currency specification.");
+                               "WRT currency specification.");
 
     if (!isXRP (get_currency) && isXRP (get_issuer))
         return RPC::make_error (rpcDST_ISR_MALFORMED,
-            "Invalid field 'taker_gets.issuer', expected non-XRP issuer.");
+            "Invalid field 'taker_gets.issuer', expected non-WRT issuer.");
 
     boost::optional<AccountID> takerID;
     if (context.params.isMember (jss::taker))

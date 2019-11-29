@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
     Copyright (c) 2012-2014 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -39,7 +39,7 @@ void addChannel (Json::Value& jsonLines, SLE const& line)
     jDst[jss::destination_account] = to_string (line[sfDestination]);
     jDst[jss::amount] = line[sfAmount].getText ();
     jDst[jss::balance] = line[sfBalance].getText ();
-    if (publicKeyType(line[sfPublicKey]))
+    if (isPublicKey(line[sfPublicKey]))
     {
         PublicKey const pk (line[sfPublicKey]);
         jDst[jss::public_key] = toBase58 (TokenType::AccountPublic, pk);

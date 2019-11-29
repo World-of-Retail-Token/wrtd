@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -195,7 +196,7 @@ bool PathRequest::isValid (std::shared_ptr<RippleLineCache> const& crCache)
         jvDestCur.append (Json::Value (systemCurrencyCode()));
         if (! saDstAmount.native ())
         {
-            // Only XRP can be send to a non-existent account.
+            // Only WRT can be send to a non-existent account.
             jvStatus = rpcError (rpcACT_NOT_FOUND);
             return false;
         }

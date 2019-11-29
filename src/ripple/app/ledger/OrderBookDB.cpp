@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -160,11 +161,11 @@ void OrderBookDB::addOrderBook(Book const& book)
 
     if (toXRP)
     {
-        // We don't want to search through all the to-XRP or from-XRP order
+        // We don't want to search through all the to-WRT or from-WRT order
         // books!
         for (auto ob: mSourceMap[book.in])
         {
-            if (isXRP (ob->getCurrencyOut ())) // also to XRP
+            if (isXRP (ob->getCurrencyOut ())) // also to WRT
                 return;
         }
     }

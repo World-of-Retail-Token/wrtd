@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
     Copyright (c) 2012-2014 Ripple Labs Inc.
 
     Permission to use, copy, modify, and/or distribute this software for any
@@ -200,7 +200,7 @@ static Json::Value checkPayment(
 
         if (sendMax.native () && amount.native ())
             return RPC::make_error (rpcINVALID_PARAMS,
-                "Cannot build XRP to XRP paths.");
+                "Cannot build WRT to WRT paths.");
 
         {
             LegacyPathFind lpf (isUnlimited (role), app);
@@ -1147,14 +1147,14 @@ Json::Value transactionSubmitMultiSigned (
         if (stpTrans->isFieldPresent (sfTxnSignature))
             return rpcError (rpcSIGNING_MALFORMED);
 
-        // The Fee field must be in XRP and greater than zero.
+        // The Fee field must be in WRT and greater than zero.
         auto const fee = stpTrans->getFieldAmount (sfFee);
 
         if (!isLegalNet (fee))
         {
             std::ostringstream err;
             err << "Invalid " << sfFee.fieldName
-                << " field.  Fees must be specified in XRP.";
+                << " field.  Fees must be specified in WRT.";
             return RPC::make_error (rpcINVALID_PARAMS, err.str ());
         }
         if (fee <= 0)

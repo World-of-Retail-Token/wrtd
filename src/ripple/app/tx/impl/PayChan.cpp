@@ -1,7 +1,8 @@
 //------------------------------------------------------------------------------
 /*
-    This file is part of rippled: https://github.com/ripple/rippled
-    Copyright (c) 2012, 2013 Ripple Labs Inc.
+    This file is part of wrtd: https://github.com/World-of-Retail-Token/wrtd
+    Copyright (c) 2019 Ripple Labs Inc.
+    Copyright (c) 2019 WORLD OF RETAIL SERVICES LIMITED.
 
     Permission to use, copy, modify, and/or distribute this software for any
     purpose  with  or without fee is hereby granted, provided that the above
@@ -36,8 +37,8 @@ namespace ripple {
 /*
     PaymentChannel
 
-        Payment channels permit off-ledger checkpoints of XRP payments flowing
-        in a single direction. A channel sequesters the owner's XRP in its own
+        Payment channels permit off-ledger checkpoints of WRT payments flowing
+        in a single direction. A channel sequesters the owner's WRT in its own
         ledger entry. The owner can authorize the recipient to claim up to a
         given balance by giving the receiver a signed message (off-ledger). The
         recipient can use this signed message to claim any unpaid balance while
@@ -58,7 +59,7 @@ namespace ripple {
         Destination
             The recipient at the end of the channel.
         Amount
-            The amount of XRP to deposit in the channel immediately.
+            The amount of WRT to deposit in the channel immediately.
         SettleDelay
             The amount of time everyone but the recipient must wait for a
             superior claim.
@@ -86,7 +87,7 @@ namespace ripple {
         Channel
             The 256-bit ID of the channel.
         Amount
-            The amount of XRP to add.
+            The amount of WRT to add.
         Expiration (optional)
             Time the channel closes. The transaction will fail if the expiration
             times does not satisfy the SettleDelay constraints.
@@ -97,10 +98,10 @@ namespace ripple {
         Channel
             The 256-bit ID of the channel.
         Balance (optional)
-            The total amount of XRP delivered after this claim is processed (optional, not
+            The total amount of WRT delivered after this claim is processed (optional, not
             needed if just closing).
         Amount (optional)
-            The amount of XRP the signature is for (not needed if equal to Balance or just
+            The amount of WRT the signature is for (not needed if equal to Balance or just
             closing the line).
         Signature (optional)
             Authorization for the balance above, signed by the owner (optional,
@@ -189,7 +190,7 @@ PayChanCreate::preflight (PreflightContext const& ctx)
     if (ctx.tx[sfAccount] == ctx.tx[sfDestination])
         return temDST_IS_SRC;
 
-    if (!publicKeyType(ctx.tx[sfPublicKey]))
+    if (!isPublicKey(ctx.tx[sfPublicKey]))
         return temMALFORMED;
 
     return preflight2 (ctx);
@@ -440,7 +441,7 @@ PayChanClaim::preflight (PreflightContext const& ctx)
             return temBAD_AMOUNT;
 
         Keylet const k (ltPAYCHAN, ctx.tx[sfPayChannel]);
-        if (!publicKeyType(ctx.tx[sfPublicKey]))
+        if (!isPublicKey(ctx.tx[sfPublicKey]))
             return temMALFORMED;
         PublicKey const pk (ctx.tx[sfPublicKey]);
         Serializer msg;
