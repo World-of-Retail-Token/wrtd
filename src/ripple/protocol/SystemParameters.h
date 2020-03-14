@@ -33,7 +33,7 @@ static inline
 std::string const&
 systemName ()
 {
-    static std::string const name = "WRT";
+    static std::string const name = "wrt";
     return name;
 }
 
